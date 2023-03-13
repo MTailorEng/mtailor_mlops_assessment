@@ -21,7 +21,7 @@ RUN python3 download.py
 
 
 # Add your custom app code, init() and inference()
-ADD mtailor_mlops_assessment/ .
+COPY mtailor_mlops_assessment/ .
 
 
 EXPOSE 8000
