@@ -6,6 +6,8 @@
 from sanic import Sanic, response
 import subprocess
 import app as driver
+import time
+
 
 # We do the model load-to-GPU step on server startup
 # so the model object is available globally for reuse
@@ -28,13 +30,16 @@ def healthcheck(request):
 # Inference POST handler at '/' is called for every http call from Banana
 @server.route('/', methods=["POST"])
 def inference(request):
+    st = time.time()
     try:
         model_inputs = response.json.loads(request.json)
     except:
         model_inputs = request.json
 
     output = driver.inference(model_inputs)
-
+    et = time.time()
+    elapsed_time = et - st
+    print('Execution time:', elapsed_time, 'seconds')
     return response.json(output)
 
 
